@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LEVINAPIs — Docs & Playground</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{--bg:#f7f7f7;--grid:#e9e9e9;--text:#141414;--shadow:#141414;--blue:#3b82f6;--green:#a7f3d0;--pink:#fbcfe8;--r:16px;--b:2px;--s:4px;}
+    *{box-sizing:border-box}
+    body{
+      font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      background-image:
+        linear-gradient(to right, var(--grid) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+      background-size:22px 22px;
+      color:var(--text);
+      overflow-x:hidden;
+    }
+    .neo{border:var(--b) solid var(--text);border-radius:var(--r);box-shadow:var(--s) var(--s) 0 var(--shadow);background:#fff;}
+    .press{transition:transform .12s ease, box-shadow .12s ease}
+    .press:active{transform:translate(var(--s), var(--s));box-shadow:0 0 0 var(--shadow);}
+    .pill{display:inline-flex;align-items:center;gap:.5rem;padding:.28rem .75rem;border-radius:999px;border:var(--b) solid var(--text);font-weight:900;box-shadow:2px 2px 0 rgba(20,20,20,.35);user-select:none;}
+    .p-blue{background:var(--blue);color:#fff;box-shadow:2px 2px 0 var(--text)}
+    .p-green{background:var(--green)}
+    .p-pink{background:var(--pink)}
+  </style>
+</head>
+<body>
+  <header class="sticky top-0 z-50">
+    <div class="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
+      <div class="neo px-4 py-2 font-black tracking-wider">LEVINAPIs</div>
+      <a href="/apis/" class="neo press px-4 py-2 font-extrabold">Open Docs →</a>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 py-10 md:py-16">
+    <section class="neo p-6 md:p-10">
+      <div class="flex flex-wrap gap-2">
+        <span class="pill p-green">DOCS</span>
+        <span class="pill p-blue">PLAYGROUND</span>
+        <span class="pill p-pink">MOBILE READY</span>
+      </div>
+
+      <h1 class="mt-5 text-4xl md:text-6xl font-black tracking-tight">LEVINAPIs</h1>
+
+      <p class="mt-4 text-base md:text-lg text-gray-700 max-w-2xl">
+        Dokumentasi + playground buat ngetes endpoint dengan cepat.
+        Clean UI, output enak dibaca, tinggal copy cURL.
+      </p>
+
+      <div class="mt-7 flex flex-wrap gap-3">
+        <a href="/apis/" class="neo press px-8 py-3 font-extrabold uppercase tracking-wider" style="background:var(--blue);color:#fff;">
+          GO TO DOCS →
+        </a>
+        <a href="/apis/download/" class="neo press px-8 py-3 font-extrabold uppercase tracking-wider">
+          Browse Download →
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
