@@ -1,0 +1,30 @@
+{
+  "folder": "download",
+  "title": "Download",
+  "endpoints": [
+    { "name": "aio", "method": "GET", "path": "/api/download/aio", "summary": "All-in-one downloader for many URLs.", "params": [{ "name": "url", "required": true, "placeholder": "https://..." }] },
+    { "name": "applemusic", "method": "GET", "path": "/api/download/applemusic", "summary": "Download songs from Apple Music.", "params": [{ "name": "url", "required": true, "placeholder": "https://music.apple.com/..." }] },
+    { "name": "capcut", "method": "GET", "path": "/api/download/capcut", "summary": "Retrieve CapCut video info by URL.", "params": [{ "name": "url", "required": true, "placeholder": "https://www.capcut.com/..." }] },
+    { "name": "facebook", "method": "GET", "path": "/api/download/facebook", "summary": "Download videos from Facebook.", "params": [{ "name": "url", "required": true, "placeholder": "https://www.facebook.com/..." }] },
+    { "name": "gdrive", "method": "GET", "path": "/api/download/gdrive", "summary": "Download a Google Drive file.", "params": [{ "name": "url", "required": true, "placeholder": "https://drive.google.com/..." }] },
+    { "name": "instagram", "method": "GET", "path": "/api/download/instagram", "summary": "Download Instagram photos & videos.", "params": [{ "name": "url", "required": true, "placeholder": "https://www.instagram.com/..." }] },
+    { "name": "lahelu", "method": "GET", "path": "/api/download/lahelu", "summary": "Download Lahelu video by URL.", "params": [{ "name": "url", "required": true, "placeholder": "https://lahelu.com/..." }] },
+    { "name": "mediafire", "method": "GET", "path": "/api/download/mediafire", "summary": "Download Mediafire file by URL.", "params": [{ "name": "url", "required": true, "placeholder": "https://www.mediafire.com/..." }] },
+    { "name": "pin", "method": "GET", "path": "/api/download/pin", "summary": "Download media from Pinterest.", "params": [{ "name": "url", "required": true, "placeholder": "https://pin.it/..." }] },
+    { "name": "sfile", "method": "GET", "path": "/api/download/sfile", "summary": "Download sFile metadata and link.", "params": [{ "name": "url", "required": true, "placeholder": "https://sfile.mobi/..." }] },
+    { "name": "soundcloud", "method": "GET", "path": "/api/download/soundcloud", "summary": "Download SoundCloud track by URL.", "params": [{ "name": "url", "required": true, "placeholder": "https://soundcloud.com/..." }] },
+    { "name": "spotify", "method": "GET", "path": "/api/download/spotify", "summary": "Download Spotify track/album by URL.", "params": [{ "name": "url", "required": true, "placeholder": "https://open.spotify.com/..." }] },
+    { "name": "tiktok", "method": "GET", "path": "/api/download/tiktok", "summary": "Download TikTok photos & videos.", "params": [{ "name": "url", "required": true, "placeholder": "https://vt.tiktok.com/..." }] },
+    { "name": "twitter", "method": "GET", "path": "/api/download/twitter", "summary": "Download Twitter/X media by URL.", "params": [{ "name": "url", "required": true, "placeholder": "https://x.com/.../status/..." }] },
+    {
+      "name": "ytdl",
+      "method": "GET",
+      "path": "/api/download/ytdl",
+      "summary": "YouTube downloader (audio/video).",
+      "params": [
+        { "name": "url", "required": true, "placeholder": "https://youtube.com/watch?v=..." },
+        { "name": "type", "required": true, "placeholder": "mp3 / mp4" }
+      ]
+    }
+  ]
+}
