@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LEVINAPIs — Endpoint</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{--bg:#f7f7f7;--grid:#e9e9e9;--text:#141414;--shadow:#141414;--blue:#3b82f6;--green:#a7f3d0;--pink:#fbcfe8;--r:16px;--b:2px;--s:4px;}
+    *{box-sizing:border-box}
+    body{font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),linear-gradient(to bottom,var(--grid) 1px,transparent 1px);background-size:22px 22px;color:var(--text);overflow-x:hidden;}
+    .neo{border:var(--b) solid var(--text);border-radius:var(--r);box-shadow:var(--s) var(--s) 0 var(--shadow);background:#fff;}
+    .press{transition:transform .12s ease, box-shadow .12s ease}
+    .press:active{transform:translate(var(--s), var(--s)); box-shadow:0 0 0 var(--shadow)}
+    .chip{display:inline-flex;align-items:center;justify-content:center;padding:.25rem .65rem;border-radius:999px;border:var(--b) solid var(--text);font-weight:900;font-size:.85rem;}
+    .chip.blue{background:var(--blue);color:#fff}
+    .chip.green{background:var(--green)}
+    .chip.pink{background:var(--pink)}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+
+    .codeBox{
+      background:#0b1220;
+      color:#e5e7eb;
+      border:var(--b) solid var(--text);
+      border-radius:var(--r);
+      box-shadow:var(--s) var(--s) 0 rgba(20,20,20,.35);
+    }
+    .codeArea{
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+      max-height: 420px;
+      white-space: pre;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="sticky top-0 z-50">
+    <div class="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
+      <a class="neo px-4 py-2 font-black tracking-wider" href="/apis/">Docs</a>
+      <a class="neo press px-4 py-2 font-extrabold" id="folderLink" href="/apis/download/">Folder →</a>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 py-10">
+    <div class="neo p-6" style="background:linear-gradient(135deg, rgba(59,130,246,.16), rgba(167,243,208,.22));">
+      <div class="flex flex-wrap gap-2">
+        <span class="chip green" id="methodChip">GET</span>
+        <span class="chip blue">READY</span>
+        <span class="chip pink" id="folderChip">DOWNLOAD</span>
+      </div>
+      <h1 class="mt-4 text-4xl md:text-5xl font-black tracking-wider" id="title">Endpoint</h1>
+      <p class="mt-2 text-lg opacity-90" id="summary">Loading...</p>
+      <div class="mt-4 neo px-4 py-3 inline-block mono" id="pathLine"></div>
+    </div>
+
+    <div class="mt-6 grid lg:grid-cols-2 gap-6">
+      <section class="neo p-6">
+        <h2 class="text-2xl font-black">Try it</h2>
+        <p class="mt-1 opacity-80">Isi param → Send.</p>
+
+        <div id="params" class="mt-5 space-y-4"></div>
+
+        <div class="mt-5 flex flex-wrap gap-3">
+          <button id="sendBtn" class="neo press px-6 py-3 font-extrabold uppercase tracking-wider" style="background:var(--blue);color:#fff;">Send →</button>
+          <button id="copyCurlBtn" class="neo press px-6 py-3 font-extrabold uppercase tracking-wider">Copy cURL</button>
+          <a id="backBtn" class="neo press px-6 py-3 font-extrabold uppercase tracking-wider" href="/apis/download/">Back</a>
+        </div>
+
+        <div class="mt-6">
+          <div class="flex items-center justify-between gap-3">
+            <div class="font-black">cURL</div>
+            <button id="copyCurlMini" class="neo press px-4 py-2 font-extrabold">Copy</button>
+          </div>
+          <div class="mt-3 codeBox p-4">
+            <pre id="curlBox" class="mono text-sm codeArea">curl -s "/api/..."</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="neo p-6">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h2 class="text-2xl font-black">Response</h2>
+            <p class="mt-1 opacity-80" id="statusLine">Status: 200 • ready</p>
+          </div>
+          <button id="copyResBtn" class="neo press px-5 py-2 font-extrabold">Copy</button>
+        </div>
+
+        <div class="mt-5 flex items-center justify-between">
+          <div class="font-black">Output</div>
+          <button id="wrapBtn" class="neo press px-4 py-2 font-extrabold">WRAP</button>
+        </div>
+
+        <div class="mt-3 codeBox p-4">
+          <pre id="outBox" class="mono text-sm codeArea">{ "code": 200, "status": "success", "message": "Ready. Klik Send untuk test." }</pre>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    function getRoute(){
+      const parts = location.pathname.split("/").filter(Boolean);
+      // /apis/{folder}/{endpoint}
+      const i = parts.indexOf("apis");
+      const folder = parts[i+1] || "download";
+      const endpoint = parts[i+2] || "tiktok";
+      return { folder, endpoint };
+    }
+
+    function buildQuery(params){
+      const qs = new URLSearchParams();
+      for (const [k,v] of Object.entries(params)) {
+        if (v !== "" && v !== null && v !== undefined) qs.set(k, v);
+      }
+      return qs.toString();
+    }
+
+    function buildCurl(apiPath, params){
+      const q = buildQuery(params);
+      const full = q ? `${apiPath}?${q}` : apiPath;
+      return `curl -s "${full}"`; // tanpa domain
+    }
+
+    function pretty(obj){
+      try { return JSON.stringify(obj, null, 2); }
+      catch { return String(obj); }
+    }
+
+    async function loadFolderData(folder){
+      const r = await fetch(`/apis/data/${folder}.json`, { cache: "no-store" });
+      if (!r.ok) throw new Error("Folder data not found");
+      return await r.json();
+    }
+
+    function renderParams(params){
+      const wrap = document.getElementById("params");
+      wrap.innerHTML = params.map(p => `
+        <div>
+          <div class="font-black">${p.name} <span class="opacity-60">${p.required ? "(required)" : "(optional)"}</span></div>
+          <input data-param="${p.name}" class="mt-2 w-full neo px-4 py-3 outline-none"
+            placeholder="${p.placeholder || ""}" />
+        </div>
+      `).join("");
+    }
+
+    function readParams(){
+      const inputs = [...document.querySelectorAll("[data-param]")];
+      const obj = {};
+      for (const inp of inputs) obj[inp.getAttribute("data-param")] = inp.value.trim();
+      return obj;
+    }
+
+    function copyText(txt){ navigator.clipboard?.writeText(txt); }
+
+    (async () => {
+      const { folder, endpoint } = getRoute();
+
+      document.getElementById("folderChip").textContent = folder.toUpperCase();
+      document.getElementById("folderLink").href = `/apis/${folder}/`;
+      document.getElementById("backBtn").href = `/apis/${folder}/`;
+
+      const data = await loadFolderData(folder);
+      const ep = (data.endpoints || []).find(e => e.name === endpoint);
+
+      if (!ep) {
+        document.getElementById("title").textContent = "Not found";
+        document.getElementById("summary").textContent = "Endpoint tidak ketemu.";
+        document.getElementById("pathLine").textContent = `/api/${folder}/${endpoint}`;
+        document.getElementById("outBox").textContent = pretty({ code: 404, status: "error", message: "Endpoint not found." });
+        return;
+      }
+
+      document.title = `LEVINAPIs — ${folder}/${endpoint}`;
+      document.getElementById("title").textContent = endpoint;
+      document.getElementById("summary").textContent = ep.summary || "";
+      document.getElementById("methodChip").textContent = ep.method || "GET";
+      document.getElementById("pathLine").textContent = ep.path;
+
+      renderParams(ep.params || [{name:"url", required:true, placeholder:"https://..."}]);
+
+      // init curl
+      document.getElementById("curlBox").textContent = buildCurl(ep.path, readParams());
+
+      // update curl on input
+      document.getElementById("params").addEventListener("input", () => {
+        document.getElementById("curlBox").textContent = buildCurl(ep.path, readParams());
+      });
+
+      // copy
+      const doCopyCurl = () => copyText(document.getElementById("curlBox").textContent);
+      document.getElementById("copyCurlBtn").addEventListener("click", doCopyCurl);
+      document.getElementById("copyCurlMini").addEventListener("click", doCopyCurl);
+      document.getElementById("copyResBtn").addEventListener("click", () => copyText(document.getElementById("outBox").textContent));
+
+      // wrap toggle
+      let wrapped = false;
+      document.getElementById("wrapBtn").addEventListener("click", () => {
+        wrapped = !wrapped;
+        document.getElementById("outBox").style.whiteSpace = wrapped ? "pre-wrap" : "pre";
+        document.getElementById("curlBox").style.whiteSpace = wrapped ? "pre-wrap" : "pre";
+      });
+
+      // send
+      document.getElementById("sendBtn").addEventListener("click", async () => {
+        const params = readParams();
+
+        for (const p of (ep.params || [])) {
+          if (p.required && !params[p.name]) {
+            document.getElementById("statusLine").textContent = "Status: 400 • missing param";
+            document.getElementById("outBox").textContent = pretty({ code: 400, status: "error", message: `Missing required param: ${p.name}` });
+            return;
+          }
+        }
+
+        document.getElementById("statusLine").textContent = "Status: … • sending";
+        document.getElementById("outBox").textContent = pretty({ code: 200, status: "success", message: "Sending request..." });
+
+        const q = new URLSearchParams(params).toString();
+        const url = q ? `${ep.path}?${q}` : ep.path; // call API kamu (rewrite -> proxy)
+
+        try {
+          const r = await fetch(url, { method: "GET" });
+          const j = await r.json().catch(async () => ({ code: r.status, status: r.ok ? "success" : "error", raw: await r.text() }));
+          document.getElementById("statusLine").textContent = `Status: ${j.code ?? r.status} • ${r.ok ? "ok" : "error"}`;
+          document.getElementById("outBox").textContent = pretty(j);
+        } catch (e) {
+          document.getElementById("statusLine").textContent = "Status: 500 • network";
+          document.getElementById("outBox").textContent = pretty({ code: 500, status: "error", message: "Network error", detail: String(e?.message || e) });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
