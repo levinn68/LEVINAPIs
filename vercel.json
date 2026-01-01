@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    { "source": "/apis/:folder/:endpoint", "destination": "/apis/endpoint.html" },
+    { "source": "/apis/:folder/:endpoint/", "destination": "/apis/endpoint.html" },
+
+    { "source": "/api/:path*", "destination": "/api/proxy?path=/api/:path*" }
+  ]
+}
